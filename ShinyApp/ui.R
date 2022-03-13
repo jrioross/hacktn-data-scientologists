@@ -6,7 +6,9 @@ shinyUI(
   dashboardPage(
     
     dashboardHeader(
+
       title = "HEALTHI",
+
       titleWidth = 300
     ),
     
@@ -61,7 +63,8 @@ shinyUI(
             downloadButton('download_customized_datatable_xlsx', 'Excel'),
             br(),
             br(),
-            DTOutput('data_table')
+            br(),
+            dataTableOutput("list_providers")
           )
         )
       )
