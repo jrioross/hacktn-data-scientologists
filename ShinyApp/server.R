@@ -36,6 +36,47 @@ shinyServer(function(session, input, output) {
     
   
   
+  observeEvent(input$map_marker_click, { 
+    showModal(modalDialog(
+      # plotlyOutput("census_plot_race"),
+      title = input$map_marker_click[1],
+      fade = F,
+      size = "s",
+      easyClose = T,
+      footer = tagList(
+        actionButton("medical_bill", "Submit Medical Bill"),
+        actionButton("review", "Write Review")
+      )
+    ))
+  })
+  
+  output$data_table <- renderDT(
+    server = T, {
+      datatable(
+        data = data_filter(),
+        style = 'bootstrap',
+        rownames = F,
+        selection = "none",
+        extensions = c("Buttons"),
+        options = list(
+          pageLength = 10,
+          lengthMenu = c(10, 25, 50, 100),
+          autoWidth = T,
+          scrollX = T,
+          dom = 'lrtip',
+          buttons = list(
+            list(
+              extend = 'collection',
+              buttons = c('columnsToggle'),
+              text = 'Columns'
+            )
+          ),
+          columnDefs = list(list(visible = F, targets=c(7)))
+        )
+      ) %>%
+        formatCurrency(columns = c("Average Cost Differential"),
+                       digits = 0)
+    })
   # observe({
     # filtered_data <- data_filter()
   
