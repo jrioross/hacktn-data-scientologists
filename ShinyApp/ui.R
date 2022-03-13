@@ -63,8 +63,7 @@ shinyUI(
             downloadButton('download_customized_datatable_xlsx', 'Excel'),
             br(),
             br(),
-            br(),
-            dataTableOutput("list_providers")
+            DTOutput('data_table')
           )
         )
       )

@@ -25,16 +25,12 @@ shinyServer(function(session, input, output) {
     handlerExpr = update_map("map", data_filter(), parse_map_input(input$map_input))
   )
 
-
-  output$list_providers<- renderDataTable(
-    as_tibble(medicare_data) %>%
-      select(Provider, City, State, `Medical Specialty`, `Medical Procedure`, `MIPS Quality Score`, `Medical Procedure`, `Cost Differential`),
-    options = list(
-      pageLength=5, scrollX='900px')
-  )
-  
-    
-  
+  # output$list_providers<- renderDataTable(
+  #   as_tibble(medicare_data) %>%
+  #     select(Provider, City, State, `Medical Specialty`, `Medical Procedure`, `MIPS Quality Score`, `Medical Procedure`, `Cost Differential`),
+  #   options = list(
+  #     pageLength=5, scrollX='900px')
+  # )
   
   observeEvent(input$map_marker_click, { 
     
