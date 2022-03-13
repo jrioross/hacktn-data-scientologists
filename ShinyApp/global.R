@@ -111,13 +111,12 @@ update_map <- function(map, data, map_input) {
                                       TRUE ~ "#E5E5E5")
   
   data$label <-
-    paste0("<b>", data$Provider, "</b><br>",
-           "<b>", data$City, ", ", data$State, "</b>",
+    paste0("<b>", data$Provider, " (", data$City, ", ", data$State, ")</b>",
            "<hr style='margin-top: 2px; margin-bottom: 4px'>",
            case_when(map_input == "quality_hex" ~ 
                        paste0("<b>MIPS Quality Score:</b> ", data$`MIPS Quality Score`, "<br>"),
                      map_input == "affordability_hex" ~ 
-                       paste0("<b>Average Cost Differential:</b> ", scales::dollar(data$`Average Cost Differential`)))) %>%
+                       paste0("<b>Average Cost Differential: ", scales::dollar(data$`Average Cost Differential`), "</b>"))) %>%
     lapply(htmltools::HTML)
   
   leafletProxy(map) %>%

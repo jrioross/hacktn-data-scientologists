@@ -57,11 +57,10 @@ shinyUI(
           box(
             title = "List of Providers",
             width = 12,
-            # downloadButton('download_customized_datatable_csv', 'CSV'),
-            # downloadButton('download_customized_datatable_xlsx', 'Excel'),
-            # br(),
-            # br(),
-            # br(),
+            downloadButton('download_customized_datatable_csv', 'CSV'),
+            downloadButton('download_customized_datatable_xlsx', 'Excel'),
+            br(),
+            br(),
             DTOutput('data_table')
           )
         )

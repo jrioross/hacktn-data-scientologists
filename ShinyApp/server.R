@@ -61,16 +61,9 @@ shinyServer(function(session, input, output) {
             )
           )
         )
-      )
-        # formatCurrency(columns = c('Annual Amount Lent',
-        #                            'Loan Amount',
-        #                            'Total Loan Costs',
-        #                            'Total Points and Fees',
-        #                            'Origination Charges',
-        #                            'Discount Points',
-        #                            'Lender Credits',
-        #                            'Property Value'),
-        #                digits = 0)
+      ) %>%
+        formatCurrency(columns = c("Average Cost Differential"),
+                       digits = 0)
     })
   # observe({
     # filtered_data <- data_filter()
