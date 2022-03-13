@@ -59,7 +59,8 @@ shinyServer(function(session, input, output) {
               buttons = c('columnsToggle'),
               text = 'Columns'
             )
-          )
+          ),
+          columnDefs = list(list(visible = F, targets=c(7)))
         )
       ) %>%
         formatCurrency(columns = c("Average Cost Differential"),
