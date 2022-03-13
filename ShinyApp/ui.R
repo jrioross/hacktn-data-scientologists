@@ -6,7 +6,7 @@ shinyUI(
   dashboardPage(
     
     dashboardHeader(
-      title = "Healthcare Buddy",
+      title = "Healthi",
       titleWidth = 300
     ),
     
@@ -126,7 +126,7 @@ shinyUI(
             br(),
             br(),
             br(),
-            dataTableOutput("datatable_customized")
+            dataTableOutput("list_providers")
           )
         )
       )
