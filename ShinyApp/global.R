@@ -9,34 +9,44 @@ library(leaflet)
 
 
 # read csv
-medicare <- read_csv("data/Medicare_Physician_Other_Practitioners_by_Provider_and_Service_2019.csv")
+medicare <- read_csv("data/danger_zone.csv")
 
 # labels for legends and titles
 choices_specialty <- c("All", medicare %>%
-                         pull(Rndrng_Prvdr_Type) %>%
+                         pull(specialty) %>%
                          unique() %>%
                          sort())
 
 choices_procedures <- c("All",medicare %>%
-                          pull(HCPCS_Desc) %>%
+                          pull(procedure_description) %>%
                           unique() %>%
                           sort())
 
 choices_state <- c("United States", medicare %>%
-                     pull(Rndrng_Prvdr_State_Abrvtn) %>%
+                     pull(state) %>%
                      unique() %>%
                      sort())
 
 choices_city <- c("All", medicare %>%
-                     pull(Rndrng_Prvdr_City) %>%
-                     unique() %>%
-                     sort())
+                    pull(city) %>%
+                    unique() %>%
+                    sort())
 
 choices_zip <- c("All", medicare %>%
-                     pull(Rndrng_Prvdr_Zip5) %>%
-                     unique() %>%
-                     sort())
+                   pull(zip) %>%
+                   unique() %>%
+                   sort())
 
 # Range of slider range
-min_charge <- min(medicare$Avg_Sbmtd_Chrg)
-max_charge <- max(medicare$Avg_Sbmtd_Chrg)
+min_charge <- round(min(medicare$avg_submitted_charge),2)
+max_charge <- round(max(medicare$avg_submitted_charge),2)
+min_mips <- min(medicare$quality_category_score, na.rm = TRUE)
+max_mips <- max(medicare$quality_category_score, na.rm = TRUE)
+
+# Initial view
+initial_lat = 39.8283
+initial_lng = -98.5795
+initial_zoom = 4
+
+
+

@@ -6,7 +6,7 @@ shinyUI(
   dashboardPage(
     
     dashboardHeader(
-      title="App name"
+      title="Healthcare Buddy"
     ),
     
     dashboardSidebar(
@@ -50,6 +50,14 @@ shinyUI(
           inputId = "gender",
           label = "Provider's Gender",
           choices = c('All', 'Male', 'Female')
+        ),
+        
+        # MIPS quality of care
+        sliderInput("mips", 
+                    label = "MIPS Score", 
+                    min = min_mips, 
+                    max = max_mips, 
+                    value = c(min_mips, max_mips)
         ),
         
         # Procedure charge

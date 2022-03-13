@@ -15,8 +15,27 @@ shinyServer(function(session, input, output) {
     updateSelectInput(session, "zip_code", choices = choices_zip)
   })
   
+  
+  
   # # Update City based on State
   # updateSelectInput(session, "city",
   #                   choices = data_filtered[data_filtered$Rndrng_Prvdr_State_Abrvtn == input$state_rank,]$Rndrng_Prvdr_City %>% unique() %>% sort()
   # )
+  
+  # MAP TAB-------------------------------------------------------------------------------
+  
+  # Initial Leaflet map
+  initial_map <- leaflet() %>%
+    addProviderTiles("OpenStreetMap.Mapnik")%>%
+    setView(lat = initial_lat, lng = initial_lng, zoom = initial_zoom)
+  
+  output$map <- renderLeaflet({
+    initial_map
+  })
+  
+  
+  
+  
+  
+  
 })
