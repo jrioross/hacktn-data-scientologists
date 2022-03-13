@@ -6,7 +6,7 @@ shinyUI(
   dashboardPage(
     
     dashboardHeader(
-      title = "Healthcare Buddy",
+      title = "HEALTHI",
       titleWidth = 300
     ),
     
@@ -30,7 +30,7 @@ shinyUI(
         selectInput(
           inputId = "map_input",
           label = "Compare Provdiers By:",
-          choices = c("Quality of Care", "Affordability")
+          choices = c("Affordability", "Quality of Care")
         ),
         
         shiny_data_filter_ui("medicare_data_filter")
@@ -103,7 +103,7 @@ shinyUI(
     
     dashboardBody(
       
-      add_busy_spinner(spin = "fading-circle"),
+      # add_busy_spinner(spin = "fading-circle"),
       
       tabItems(
         
@@ -121,12 +121,12 @@ shinyUI(
           box(
             title = "List of Providers",
             width = 12,
-            downloadButton('download_customized_datatable_csv', 'CSV'),
-            downloadButton('download_customized_datatable_xlsx', 'Excel'),
-            br(),
-            br(),
-            br(),
-            dataTableOutput("datatable_customized")
+            # downloadButton('download_customized_datatable_csv', 'CSV'),
+            # downloadButton('download_customized_datatable_xlsx', 'Excel'),
+            # br(),
+            # br(),
+            # br(),
+            DTOutput('data_table')
           )
         )
       )
