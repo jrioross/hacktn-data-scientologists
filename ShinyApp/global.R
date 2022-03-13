@@ -8,7 +8,7 @@ library(leaflet)
 library(leaflet.extras)
 library(shinybusy)
 library(shinyDataFilter)
-
+library(DT)
 
 # read csv
 medicare_data <- read_csv("data/danger_zone.csv", show_col_types = F) %>% 
@@ -42,16 +42,7 @@ medicare_data <- read_csv("data/danger_zone.csv", show_col_types = F) %>%
             `Medical Specialty` = as_factor(specialty),
             `Medical Procedure` = as_factor(procedure_description),
             `MIPS Quality Score` = round(quality_category_score, 1),
-            `Cost Differential` = round(cost_differential))
-
-# Create tooltip labels for leaflet map
-medicare_data$label <-
-  paste0("<b>", medicare_data$Provider, "</b><br>",
-         "<b>", medicare_data$City, ", ", medicare_data$State, "</b>",
-         "<hr style='margin-top: 2px; margin-bottom: 4px'>",
-         "<b>MIPS Quality Score:</b> ", medicare_data$`MIPS Quality Score`, "<br>",
-         "<b>Average Cost Differential:</b> ", scales::dollar(medicare_data$`Cost Differential`)) %>%
-         lapply(htmltools::HTML)
+            `Average Cost Differential` = round(cost_differential))
 
 # labels for legends and titles
 # choices_specialty <- c("All", medicare_data %>%
@@ -85,11 +76,6 @@ medicare_data$label <-
 # min_mips <- min(medicare_data$quality_category_score, na.rm = TRUE)
 # max_mips <- max(medicare_data$quality_category_score, na.rm = TRUE)
 
-# Initial view
-# initial_lat = 39.8283
-# initial_lng = -98.5795
-# initial_zoom = 4
-
 # Initialize leaflet map
 draw_base_map <- function() {
   
@@ -108,20 +94,42 @@ draw_base_map <- function() {
 
 update_map <- function(map, data, map_input) {
   
-  pal <- colorBin(palette = "RdYlGn", domain = NULL, bins = 4, na.color = "#E5E5E5", reverse = F)
-  pal_rev <- colorBin(palette = "RdYlGn", domain = NULL, bins = 4, na.color = "#E5E5E5", reverse = T)
-  data$quality_hex <- pal(data$`MIPS Quality Score`)
-  data$affordability_hex <- pal_rev(data$`Cost Differential`)
+  data$quality_hex <- case_when(data$`MIPS Quality Score` < 50 ~ "#d73026",
+                                data$`MIPS Quality Score` < 60 ~ "#f36d42",
+                                data$`MIPS Quality Score` < 70 ~ "#fee08b",
+                                data$`MIPS Quality Score` < 80 ~ "#a5d86a",
+                                data$`MIPS Quality Score` < 90 ~ "#67bd63",
+                                data$`MIPS Quality Score` <= 100 ~ "#1a984f",
+                                TRUE ~ "#E5E5E5")
+  
+  data$affordability_hex <- case_when(data$`Average Cost Differential` > 250 ~ "#d73026",
+                                      data$`Average Cost Differential` > 50 ~ "#f36d42",
+                                      data$`Average Cost Differential` >= 0 ~ "#fee08b",
+                                      data$`Average Cost Differential` >= -50 ~ "#a5d86a",
+                                      data$`Average Cost Differential` >= -250 ~ "#67bd63",
+                                      data$`Average Cost Differential` < -250 ~ "#1a984f",
+                                      TRUE ~ "#E5E5E5")
+  
+  data$label <-
+    paste0("<b>", data$Provider, "</b><br>",
+           "<b>", data$City, ", ", data$State, "</b>",
+           "<hr style='margin-top: 2px; margin-bottom: 4px'>",
+           case_when(map_input == "quality_hex" ~ 
+                       paste0("<b>MIPS Quality Score:</b> ", data$`MIPS Quality Score`, "<br>"),
+                     map_input == "affordability_hex" ~ 
+                       paste0("<b>Average Cost Differential:</b> ", scales::dollar(data$`Average Cost Differential`)))) %>%
+    lapply(htmltools::HTML)
   
   leafletProxy(map) %>%
     clearMarkers() %>%
     addCircleMarkers(data = data,
                      group = "providers",
-                     weight = 1,
+                     layerId = ~Provider,
+                     weight = 0.5,
                      radius = 4,
                      fillColor = ~eval(parse(text = paste0(map_input))),
                      fillOpacity = 0.75,
-                     color = "white",
+                     color = "black",
                      label = ~label)
 }
 

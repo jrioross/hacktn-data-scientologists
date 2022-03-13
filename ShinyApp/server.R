@@ -25,6 +25,53 @@ shinyServer(function(session, input, output) {
     handlerExpr = update_map("map", data_filter(), parse_map_input(input$map_input))
   )
   
+  observeEvent(input$map_marker_click, { 
+    showModal(modalDialog(
+      # plotlyOutput("census_plot_race"),
+      title = input$map_marker_click[1],
+      fade = F,
+      size = "s",
+      easyClose = T,
+      footer = tagList(
+        actionButton("medical_bill", "Submit Medical Bill"),
+        actionButton("review", "Write Review")
+      )
+    ))
+  })
+  
+  output$data_table <- renderDT(
+    server = T, {
+      datatable(
+        data = data_filter(),
+        style = 'bootstrap',
+        rownames = F,
+        selection = "none",
+        extensions = c("Buttons"),
+        options = list(
+          pageLength = 10,
+          lengthMenu = c(10, 25, 50, 100),
+          autoWidth = T,
+          scrollX = T,
+          dom = 'lrtip',
+          buttons = list(
+            list(
+              extend = 'collection',
+              buttons = c('columnsToggle'),
+              text = 'Columns'
+            )
+          )
+        )
+      )
+        # formatCurrency(columns = c('Annual Amount Lent',
+        #                            'Loan Amount',
+        #                            'Total Loan Costs',
+        #                            'Total Points and Fees',
+        #                            'Origination Charges',
+        #                            'Discount Points',
+        #                            'Lender Credits',
+        #                            'Property Value'),
+        #                digits = 0)
+    })
   # observe({
     # filtered_data <- data_filter()
   
