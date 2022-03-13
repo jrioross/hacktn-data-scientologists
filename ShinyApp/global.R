@@ -41,40 +41,10 @@ medicare_data <- read_csv("data/danger_zone.csv", show_col_types = F) %>%
             Provider = as_factor(str_remove(paste0(first_name, " ", last_name, ", ", credentials), ", NA")),
             `Medical Specialty` = as_factor(specialty),
             `Medical Procedure` = as_factor(procedure_description),
-            `MIPS Quality Score` = round(quality_category_score, 1),
-            `Average Cost Differential` = round(cost_differential))
-
-# labels for legends and titles
-# choices_specialty <- c("All", medicare_data %>%
-#                          pull(specialty) %>%
-#                          unique() %>%
-#                          sort())
-# 
-# choices_procedures <- c("All",medicare_data %>%
-#                           pull(procedure_description) %>%
-#                           unique() %>%
-#                           sort())
-# 
-# choices_state <- c("United States", medicare_data %>%
-#                      pull(state) %>%
-#                      unique() %>%
-#                      sort())
-# 
-# choices_city <- c("All", medicare_data %>%
-#                     pull(city) %>%
-#                     unique() %>%
-#                     sort())
-# 
-# choices_zip <- c("All", medicare_data %>%
-#                    pull(zip) %>%
-#                    unique() %>%
-#                    sort())
-
-# Range of slider range
-# min_charge <- round(min(medicare_data$avg_submitted_charge), 2)
-# max_charge <- round(max(medicare_data$avg_submitted_charge), 2)
-# min_mips <- min(medicare_data$quality_category_score, na.rm = TRUE)
-# max_mips <- max(medicare_data$quality_category_score, na.rm = TRUE)
+            `Medical Procedure Charge` = avg_submitted_charge,
+            `Total Procedures Rendered` = total_services,
+            `Average Cost Differential` = round(cost_differential),
+            `MIPS Quality Score` = round(quality_category_score, 1))
 
 # Initialize leaflet map
 draw_base_map <- function() {
