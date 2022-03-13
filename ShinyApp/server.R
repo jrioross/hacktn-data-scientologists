@@ -25,6 +25,20 @@ shinyServer(function(session, input, output) {
     handlerExpr = update_map("map", data_filter(), parse_map_input(input$map_input))
   )
   
+  observeEvent(input$map_marker_click, { 
+    showModal(modalDialog(
+      # plotlyOutput("census_plot_race"),
+      title = input$map_marker_click[1],
+      fade = F,
+      size = "s",
+      easyClose = T,
+      footer = tagList(
+        actionButton("medical_bill", "Submit Medical Bill"),
+        actionButton("review", "Write Review")
+      )
+    ))
+  })
+  
   output$data_table <- renderDT(
     server = T, {
       datatable(

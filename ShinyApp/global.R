@@ -124,6 +124,7 @@ update_map <- function(map, data, map_input) {
     clearMarkers() %>%
     addCircleMarkers(data = data,
                      group = "providers",
+                     layerId = ~Provider,
                      weight = 0.5,
                      radius = 4,
                      fillColor = ~eval(parse(text = paste0(map_input))),
