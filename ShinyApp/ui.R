@@ -3,14 +3,24 @@
 # Define UI for application 
 shinyUI(
 
-  dashboardPage(
+  dashboardPage(skin = 'yellow',
     
     dashboardHeader(
 
-      title = "HEALTHI",
-
-      titleWidth = 300
-    ),
+      #title = "HEALTHI",
+    
+      titleWidth = 300,
+      tags$li(class = "dropdown",
+              align = 'left',
+              tags$a(href="https://github.com/jrioross/hacktn-data-scientologists", 
+                     target="_blank", 
+                     tags$img(height = "60px", 
+                              alt="SNAP Logo", 
+                              src="HEALTHI.png")
+              )
+      #img(src = 'HEALTHI.png', align = 'left')
+          )
+      ),
     
     dashboardSidebar(
       width = 300,
@@ -40,6 +50,8 @@ shinyUI(
     ),
     
     dashboardBody(
+      
+      use_theme(mytheme),
       
       # add_busy_spinner(spin = "fading-circle"),
       

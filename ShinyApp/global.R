@@ -9,6 +9,15 @@ library(leaflet.extras)
 library(shinybusy)
 library(shinyDataFilter)
 library(DT)
+library(fresh)
+
+# theme
+
+mytheme <- create_theme(
+  adminlte_color(
+    yellow = "#F9CF34"
+  )
+)
 
 # read csv
 medicare_data <- read_csv("data/danger_zone.csv", show_col_types = F) %>% 
